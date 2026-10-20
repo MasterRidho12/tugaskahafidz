@@ -19,8 +19,9 @@
     {%- endif -%}
   {%- endfor -%}
 {%- endif -%}
+{%- assign chart_rows = chart.rows.value | default: chart.rows -%}
 
-{%- if chart != blank and chart.rows.value != blank -%}
+{%- if chart != blank and chart_rows != blank -%}
   {{ 'size-chart.css' | asset_url | stylesheet_tag }}
 
   {%- assign has_chest = false -%}
@@ -30,7 +31,7 @@
   {%- assign has_shoulder = false -%}
   {%- assign has_sleeve = false -%}
 
-  {%- for row in chart.rows.value -%}
+  {%- for row in chart_rows -%}
     {%- assign row_chest = row.chest_cm.value | default: row.chest_cm -%}
     {%- if row_chest != blank -%}{%- assign has_chest = true -%}{%- endif -%}
 
@@ -198,7 +199,7 @@
                 </tr>
               </thead>
               <tbody>
-                {%- for row in chart.rows.value -%}
+                {%- for row in chart_rows -%}
                   {%- assign r_size = row.size.value | default: row.size -%}
                   {%- assign r_chest = row.chest_cm.value | default: row.chest_cm -%}
                   {%- assign r_waist = row.waist_cm.value | default: row.waist_cm -%}
