@@ -1,0 +1,284 @@
+{%- comment -%}
+  Size Chart Snippet for Kainara / Dawn Theme
+  Supports:
+  - Fallback logic: Product metafield -> Collection metafield -> Hide completely
+  - Dynamic columns (hiding columns where all rows are empty)
+  - Unit toggle (cm / inch) with localStorage
+  - Accessible modal dialog (<dialog> + keyboard navigation + focus trap)
+  - Sticky first column on mobile
+  - 100% locales based (no hardcoded customer-facing text)
+  - Bonus: Size recommendation finder
+{%- endcomment -%}
+
+{%- assign chart = product.metafields.custom.size_chart.value -%}
+{%- if chart == blank -%}
+  {%- for collection in product.collections -%}
+    {%- if collection.metafields.custom.default_size_chart.value != blank -%}
+      {%- assign chart = collection.metafields.custom.default_size_chart.value -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+
+{%- if chart != blank and chart.rows.value != blank -%}
+  {{ 'size-chart.css' | asset_url | stylesheet_tag }}
+
+  {%- assign has_chest = false -%}
+  {%- assign has_waist = false -%}
+  {%- assign has_hip = false -%}
+  {%- assign has_length = false -%}
+  {%- assign has_shoulder = false -%}
+  {%- assign has_sleeve = false -%}
+
+  {%- for row in chart.rows.value -%}
+    {%- assign row_chest = row.chest_cm.value | default: row.chest_cm -%}
+    {%- if row_chest != blank -%}{%- assign has_chest = true -%}{%- endif -%}
+
+    {%- assign row_waist = row.waist_cm.value | default: row.waist_cm -%}
+    {%- if row_waist != blank -%}{%- assign has_waist = true -%}{%- endif -%}
+
+    {%- assign row_hip = row.hip_cm.value | default: row.hip_cm -%}
+    {%- if row_hip != blank -%}{%- assign has_hip = true -%}{%- endif -%}
+
+    {%- assign row_length = row.length_cm.value | default: row.length_cm -%}
+    {%- if row_length != blank -%}{%- assign has_length = true -%}{%- endif -%}
+
+    {%- assign row_shoulder = row.shoulder_cm.value | default: row.shoulder_cm -%}
+    {%- if row_shoulder != blank -%}{%- assign has_shoulder = true -%}{%- endif -%}
+
+    {%- assign row_sleeve = row.sleeve_cm.value | default: row.sleeve_cm -%}
+    {%- if row_sleeve != blank -%}{%- assign has_sleeve = true -%}{%- endif -%}
+  {%- endfor -%}
+
+  {%- assign button_text = block.settings.button_label -%}
+  {%- if button_text == blank -%}
+    {%- assign button_text = 'products.product.size_chart.button_label' | t -%}
+  {%- endif -%}
+
+  <div
+    class="size-chart-wrapper"
+    id="SizeChart-{{ block.id }}"
+    data-block-id="{{ block.id }}"
+    data-default-unit="{{ block.settings.default_unit | default: 'cm' }}"
+    {{ block.shopify_attributes }}
+  >
+    <button
+      type="button"
+      class="size-chart-trigger link"
+      id="SizeChartTrigger-{{ block.id }}"
+      aria-haspopup="dialog"
+      aria-expanded="false"
+      aria-controls="SizeChartModal-{{ block.id }}"
+    >
+      <span class="size-chart-trigger__icon" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21.3 15.3l-6.6 6.6c-.4.4-1 .4-1.4 0l-11-11c-.4-.4-.4-1 0-1.4l6.6-6.6c.4-.4 1-.4 1.4 0l11 11c.4.4.4 1 0 1.4z"/>
+          <path d="M7 7l3 3"/>
+          <path d="M10 4l2 2"/>
+          <path d="M4 10l2 2"/>
+          <path d="M13 7l2 2"/>
+          <path d="M7 13l2 2"/>
+        </svg>
+      </span>
+      <span class="size-chart-trigger__label">{{ button_text | escape }}</span>
+    </button>
+
+    <dialog
+      id="SizeChartModal-{{ block.id }}"
+      class="size-chart-modal"
+      aria-modal="true"
+      aria-labelledby="SizeChartTitle-{{ block.id }}"
+      aria-hidden="true"
+    >
+      <div class="size-chart-modal__overlay" data-close-modal tabindex="-1"></div>
+      <div class="size-chart-modal__container" role="document">
+        <header class="size-chart-modal__header">
+          <div class="size-chart-modal__header-left">
+            <h2 id="SizeChartTitle-{{ block.id }}" class="size-chart-modal__title">
+              {{ chart.title.value | default: chart.title | escape }}
+            </h2>
+          </div>
+          <button
+            type="button"
+            class="size-chart-modal__close-btn"
+            id="SizeChartClose-{{ block.id }}"
+            data-close-modal
+            aria-label="{{ 'products.product.size_chart.close' | t }}"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </header>
+
+        <div class="size-chart-modal__controls">
+          <div class="size-chart-unit-toggle" role="group" aria-label="{{ 'products.product.size_chart.unit_cm' | t }} / {{ 'products.product.size_chart.unit_inch' | t }}">
+            <button
+              type="button"
+              class="size-chart-unit-toggle__btn size-chart-unit-toggle__btn--cm is-active"
+              data-unit="cm"
+              aria-pressed="true"
+            >
+              {{ 'products.product.size_chart.unit_cm' | t }}
+            </button>
+            <button
+              type="button"
+              class="size-chart-unit-toggle__btn size-chart-unit-toggle__btn--inch"
+              data-unit="inch"
+              aria-pressed="false"
+            >
+              {{ 'products.product.size_chart.unit_inch' | t }}
+            </button>
+          </div>
+        </div>
+
+        <div class="size-chart-modal__content">
+          {%- if has_chest -%}
+            <div class="size-chart-recommender">
+              <div class="size-chart-recommender__header">
+                <span class="size-chart-recommender__title">{{ 'products.product.size_chart.recommender_title' | t }}</span>
+                <span class="size-chart-recommender__desc">{{ 'products.product.size_chart.recommender_desc' | t }}</span>
+              </div>
+              <div class="size-chart-recommender__form">
+                <input
+                  type="number"
+                  class="size-chart-recommender__input"
+                  placeholder="{{ 'products.product.size_chart.recommender_placeholder' | t }}"
+                  aria-label="{{ 'products.product.size_chart.recommender_placeholder' | t }}"
+                  min="30"
+                  max="250"
+                  step="0.5"
+                >
+                <button type="button" class="size-chart-recommender__button">
+                  {{ 'products.product.size_chart.recommender_button' | t }}
+                </button>
+              </div>
+              <div class="size-chart-recommender__feedback" aria-live="polite"></div>
+            </div>
+          {%- endif -%}
+
+          <div class="size-chart-table-wrapper" tabindex="0" role="region" aria-label="{{ chart.title.value | default: chart.title | escape }}">
+            <table class="size-chart-table">
+              <thead>
+                <tr>
+                  <th scope="col" class="size-chart-table__th size-chart-table__th--sticky">
+                    {{ 'products.product.size_chart.size' | t }}
+                  </th>
+                  {%- if has_chest -%}
+                    <th scope="col" class="size-chart-table__th">
+                      {{ 'products.product.size_chart.chest' | t }}
+                    </th>
+                  {%- endif -%}
+                  {%- if has_waist -%}
+                    <th scope="col" class="size-chart-table__th">
+                      {{ 'products.product.size_chart.waist' | t }}
+                    </th>
+                  {%- endif -%}
+                  {%- if has_hip -%}
+                    <th scope="col" class="size-chart-table__th">
+                      {{ 'products.product.size_chart.hip' | t }}
+                    </th>
+                  {%- endif -%}
+                  {%- if has_length -%}
+                    <th scope="col" class="size-chart-table__th">
+                      {{ 'products.product.size_chart.length' | t }}
+                    </th>
+                  {%- endif -%}
+                  {%- if has_shoulder -%}
+                    <th scope="col" class="size-chart-table__th">
+                      {{ 'products.product.size_chart.shoulder' | t }}
+                    </th>
+                  {%- endif -%}
+                  {%- if has_sleeve -%}
+                    <th scope="col" class="size-chart-table__th">
+                      {{ 'products.product.size_chart.sleeve' | t }}
+                    </th>
+                  {%- endif -%}
+                </tr>
+              </thead>
+              <tbody>
+                {%- for row in chart.rows.value -%}
+                  {%- assign r_size = row.size.value | default: row.size -%}
+                  {%- assign r_chest = row.chest_cm.value | default: row.chest_cm -%}
+                  {%- assign r_waist = row.waist_cm.value | default: row.waist_cm -%}
+                  {%- assign r_hip = row.hip_cm.value | default: row.hip_cm -%}
+                  {%- assign r_length = row.length_cm.value | default: row.length_cm -%}
+                  {%- assign r_shoulder = row.shoulder_cm.value | default: row.shoulder_cm -%}
+                  {%- assign r_sleeve = row.sleeve_cm.value | default: row.sleeve_cm -%}
+                  <tr class="size-chart-table__tr" data-row-size="{{ r_size | escape }}" data-chest="{{ r_chest }}">
+                    <th scope="row" class="size-chart-table__td size-chart-table__td--sticky">
+                      {{ r_size }}
+                    </th>
+                    {%- if has_chest -%}
+                      <td class="size-chart-table__td" {% if r_chest != blank %}data-cm="{{ r_chest }}"{% endif %}>
+                        {%- if r_chest != blank -%}{{ r_chest }}{%- else -%}{{ 'products.product.size_chart.empty_cell' | t }}{%- endif -%}
+                      </td>
+                    {%- endif -%}
+                    {%- if has_waist -%}
+                      <td class="size-chart-table__td" {% if r_waist != blank %}data-cm="{{ r_waist }}"{% endif %}>
+                        {%- if r_waist != blank -%}{{ r_waist }}{%- else -%}{{ 'products.product.size_chart.empty_cell' | t }}{%- endif -%}
+                      </td>
+                    {%- endif -%}
+                    {%- if has_hip -%}
+                      <td class="size-chart-table__td" {% if r_hip != blank %}data-cm="{{ r_hip }}"{% endif %}>
+                        {%- if r_hip != blank -%}{{ r_hip }}{%- else -%}{{ 'products.product.size_chart.empty_cell' | t }}{%- endif -%}
+                      </td>
+                    {%- endif -%}
+                    {%- if has_length -%}
+                      <td class="size-chart-table__td" {% if r_length != blank %}data-cm="{{ r_length }}"{% endif %}>
+                        {%- if r_length != blank -%}{{ r_length }}{%- else -%}{{ 'products.product.size_chart.empty_cell' | t }}{%- endif -%}
+                      </td>
+                    {%- endif -%}
+                    {%- if has_shoulder -%}
+                      <td class="size-chart-table__td" {% if r_shoulder != blank %}data-cm="{{ r_shoulder }}"{% endif %}>
+                        {%- if r_shoulder != blank -%}{{ r_shoulder }}{%- else -%}{{ 'products.product.size_chart.empty_cell' | t }}{%- endif -%}
+                      </td>
+                    {%- endif -%}
+                    {%- if has_sleeve -%}
+                      <td class="size-chart-table__td" {% if r_sleeve != blank %}data-cm="{{ r_sleeve }}"{% endif %}>
+                        {%- if r_sleeve != blank -%}{{ r_sleeve }}{%- else -%}{{ 'products.product.size_chart.empty_cell' | t }}{%- endif -%}
+                      </td>
+                    {%- endif -%}
+                  </tr>
+                {%- endfor -%}
+              </tbody>
+            </table>
+          </div>
+
+          {%- assign chart_desc = chart.description.value | default: chart.description -%}
+          {%- if chart_desc != blank -%}
+            <p class="size-chart-modal__desc">
+              {{ chart_desc | escape }}
+            </p>
+          {%- endif -%}
+
+          {%- assign chart_notes = chart.notes.value | default: chart.notes -%}
+          {%- if chart_notes != blank -%}
+            <div class="size-chart-modal__notes rte">
+              {{ chart_notes }}
+            </div>
+          {%- endif -%}
+
+          {%- assign guide_img = chart.guide_image.value | default: chart.guide_image -%}
+          {%- if block.settings.show_guide_image and guide_img != blank -%}
+            <div class="size-chart-modal__guide-image-wrap">
+              <h3 class="size-chart-modal__guide-title">{{ 'products.product.size_chart.guide_image_alt' | t }}</h3>
+              {{
+                guide_img
+                | image_url: width: 800
+                | image_tag:
+                  loading: 'lazy',
+                  class: 'size-chart-modal__guide-image',
+                  widths: '375, 550, 750, 800',
+                  alt: 'products.product.size_chart.guide_image_alt' | t
+              }}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </dialog>
+  </div>
+
+  <script src="{{ 'size-chart.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
