@@ -1,0 +1,115 @@
+{% comment %}
+  BaaBaaSheepz — Custom Product Grid Section
+  4-column grid, fully editable via Theme Editor (no DB required)
+{% endcomment %}
+
+<div class="baabaa-products section-{{ section.id }}-padding">
+  <div class="page-width">
+    {% if section.settings.section_title != blank %}
+      <h2 class="baabaa-products__heading">{{ section.settings.section_title }}</h2>
+    {% endif %}
+
+    <div class="baabaa-products__grid">
+      {% for block in section.blocks %}
+        <div class="baabaa-product-card" {{ block.shopify_attributes }}>
+
+          <div class="baabaa-product-card__image-wrapper">
+            {% if block.settings.product_image != blank %}
+              <img
+                src="{{ block.settings.product_image | image_url: width: 600 }}"
+                alt="{{ block.settings.product_title | escape }}"
+                width="600"
+                height="600"
+                loading="lazy"
+              >
+            {% else %}
+              {{ 'product-1' | placeholder_svg_tag: 'baabaa-product-card__placeholder-img' }}
+            {% endif %}
+          </div>
+
+          <p class="baabaa-product-card__title">{{ block.settings.product_title }}</p>
+          <p class="baabaa-product-card__price">{{ block.settings.product_price }}</p>
+
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "BaaBaa Products",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "Our Products"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_card",
+      "name": "Product Card",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "product_image",
+          "label": "Product Image"
+        },
+        {
+          "type": "text",
+          "id": "product_title",
+          "label": "Product Name",
+          "default": "Bed-Time Buddy XL"
+        },
+        {
+          "type": "text",
+          "id": "product_price",
+          "label": "Price (e.g. Rp 299.000)",
+          "default": "Rp 299.000"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "BaaBaa Products",
+      "blocks": [
+        {
+          "type": "product_card",
+          "settings": {
+            "product_title": "Bed-Time Buddy XL",
+            "product_price": "Rp 399.000"
+          }
+        },
+        {
+          "type": "product_card",
+          "settings": {
+            "product_title": "Bed-Time Buddy Medium",
+            "product_price": "Rp 299.000"
+          }
+        },
+        {
+          "type": "product_card",
+          "settings": {
+            "product_title": "Bed-Time Buddy Jumbo",
+            "product_price": "Rp 499.000"
+          }
+        },
+        {
+          "type": "product_card",
+          "settings": {
+            "product_title": "Bed-Time Buddy Mini",
+            "product_price": "Rp 199.000"
+          }
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8
+}
+{% endschema %}

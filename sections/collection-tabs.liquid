@@ -1,0 +1,573 @@
+{%- style -%}
+  .collection-tabs-section {
+    background-color: {{ section.settings.bg_color }};
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .collection-tabs-section {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .collection-tabs__container {
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .collection-tabs__heading {
+    text-align: center;
+    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 3.2rem;
+    letter-spacing: -0.02em;
+  }
+
+  .collection-tabs__nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0;
+    border-bottom: 2px solid #e8e0d4;
+    margin-bottom: 4rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .collection-tabs__nav-item {
+    position: relative;
+  }
+
+  .collection-tabs__tab-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 1.2rem 2rem;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #6b6b6b;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    position: relative;
+    transition: color 0.2s ease;
+  }
+
+  .collection-tabs__tab-btn::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #1a1a1a;
+    transform: scaleX(0);
+    transition: transform 0.25s ease;
+    border-radius: 2px 2px 0 0;
+  }
+
+  .collection-tabs__tab-btn:hover { color: #1a1a1a; }
+
+  .collection-tabs__tab-btn.is-active {
+    color: #1a1a1a;
+    font-weight: 700;
+  }
+
+  .collection-tabs__tab-btn.is-active::after {
+    transform: scaleX(1);
+  }
+
+  .collection-tabs__panel { display: none; }
+  .collection-tabs__panel.is-active { display: block; }
+
+  .collection-tabs__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2.4rem;
+  }
+
+  @media screen and (max-width: 989px) {
+    .collection-tabs__grid { grid-template-columns: repeat(2, 1fr); gap: 1.6rem; }
+    .collection-tabs__tab-btn { padding: 1rem 1.2rem; font-size: 1.3rem; }
+  }
+
+  @media screen and (max-width: 749px) {
+    .collection-tabs__grid { grid-template-columns: repeat(2, 1fr); gap: 1.2rem; }
+  }
+
+  .collection-tabs__card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 1.2rem;
+    overflow: hidden;
+    background: #ffffff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .collection-tabs__card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+    text-decoration: none;
+  }
+
+  .collection-tabs__card-image-wrap {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background-color: #fdf4e7;
+    border: 4px solid #f5e9d4;
+    border-radius: 1.2rem 1.2rem 0 0;
+    position: relative;
+  }
+
+  .collection-tabs__card-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.35s ease;
+  }
+
+  .collection-tabs__card:hover .collection-tabs__card-image-wrap img {
+    transform: scale(1.04);
+  }
+
+  .collection-tabs__card-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fdf4e7;
+    color: #c4a97a;
+  }
+
+  .collection-tabs__card-placeholder svg { width: 40%; opacity: 0.3; }
+
+  .collection-tabs__card-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background-color: #e94444;
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 0.3rem 0.8rem;
+    border-radius: 2rem;
+    letter-spacing: 0.03em;
+  }
+
+  .collection-tabs__card-info {
+    padding: 1.2rem 1.4rem 1.6rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .collection-tabs__card-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .collection-tabs__card-price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+    margin-top: auto;
+    padding-top: 0.6rem;
+  }
+
+  .collection-tabs__card-price--compare {
+    font-weight: 400;
+    color: #aaa;
+    text-decoration: line-through;
+    font-size: 1.1rem;
+    margin-left: 0.4rem;
+  }
+
+  .collection-tabs__empty {
+    text-align: center;
+    padding: 4rem 0;
+    color: #888;
+    font-size: 1.4rem;
+  }
+
+  .collection-tabs__view-all {
+    display: flex;
+    justify-content: center;
+    margin-top: 3.6rem;
+  }
+
+  .collection-tabs__view-all a {
+    display: inline-block;
+    background-color: #111111;
+    color: #ffffff;
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 1.2rem 4rem;
+    border-radius: 0.3rem;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+    border: 2px solid #111111;
+  }
+
+  .collection-tabs__view-all a:hover {
+    background-color: #333333;
+    border-color: #333333;
+  }
+{%- endstyle -%}
+
+<div class="collection-tabs-section">
+  <div class="collection-tabs__container">
+
+    {%- if section.settings.title != blank -%}
+      <h2 class="collection-tabs__heading">{{ section.settings.title }}</h2>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+
+      <ul class="collection-tabs__nav" role="tablist" aria-label="Collection tabs">
+        {%- for block in section.blocks -%}
+          {%- assign tab_label = block.settings.tab_label -%}
+          {%- if tab_label == blank -%}
+            {%- assign tab_label = block.settings.collection.title | default: 'Tab' -%}
+          {%- endif -%}
+          <li class="collection-tabs__nav-item" role="presentation">
+            <button
+              class="collection-tabs__tab-btn{% if forloop.first %} is-active{% endif %}"
+              role="tab"
+              id="tab-btn-{{ section.id }}-{{ forloop.index }}"
+              aria-controls="tab-panel-{{ section.id }}-{{ forloop.index }}"
+              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+              data-tab-target="tab-panel-{{ section.id }}-{{ forloop.index }}"
+              {{ block.shopify_attributes }}
+            >
+              {{ tab_label }}
+            </button>
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'collection_tab' -%}
+        {%- assign collection = block.settings.collection -%}
+        {%- assign products_to_show = block.settings.products_to_show | default: 8 -%}
+
+        {%- comment -%} Collect demo_product blocks that belong to this tab (linked by tab index) {%- endcomment -%}
+        {%- assign tab_index = forloop.index -%}
+        <div
+          class="collection-tabs__panel{% if forloop.first %} is-active{% endif %}"
+          id="tab-panel-{{ section.id }}-{{ forloop.index }}"
+          role="tabpanel"
+          aria-labelledby="tab-btn-{{ section.id }}-{{ forloop.index }}"
+        >
+          {%- if collection != blank and collection.products_count > 0 -%}
+            <div class="collection-tabs__grid">
+              {%- for product in collection.products limit: products_to_show -%}
+                <a href="{{ product.url }}" class="collection-tabs__card" aria-label="{{ product.title | escape }}">
+                  <div class="collection-tabs__card-image-wrap">
+                    {%- unless product.available -%}
+                      <span class="collection-tabs__card-badge">Sold out</span>
+                    {%- endunless -%}
+                    {%- if product.featured_media -%}
+                      <img
+                        src="{{ product.featured_media | image_url: width: 600 }}"
+                        alt="{{ product.featured_media.alt | default: product.title | escape }}"
+                        width="600"
+                        height="600"
+                        loading="lazy"
+                      >
+                    {%- else -%}
+                      <div class="collection-tabs__card-placeholder">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 525.5 525.5" aria-hidden="true">
+                          <path d="M324.5 212.7H203c-1.6 0-2.8 1.3-2.8 2.8V308c0 1.6 1.3 2.8 2.8 2.8h121.6c1.6 0 2.8-1.3 2.8-2.8v-92.5c0-1.6-1.3-2.8-2.9-2.8zm1.1 95.3c0 .6-.5 1.1-1.1 1.1H203c-.6 0-1.1-.5-1.1-1.1v-92.5c0-.6.5-1.1 1.1-1.1h121.6c.6 0 1.1.5 1.1 1.1V308z"/>
+                        </svg>
+                      </div>
+                    {%- endif -%}
+                  </div>
+                  <div class="collection-tabs__card-info">
+                    <p class="collection-tabs__card-title">{{ product.title }}</p>
+                    <p class="collection-tabs__card-price">
+                      {{ product.price_min | money_without_trailing_zeros | remove: ' IDR' }}
+                      {%- if product.compare_at_price_max > product.price_min -%}
+                        <span class="collection-tabs__card-price--compare">
+                          {{ product.compare_at_price_max | money_without_trailing_zeros | remove: ' IDR' }}
+                        </span>
+                      {%- endif -%}
+                    </p>
+                  </div>
+                </a>
+              {%- endfor -%}
+            </div>
+
+            {%- if section.settings.show_view_all and collection.products_count > products_to_show -%}
+              <div class="collection-tabs__view-all">
+                <a href="{{ collection.url }}" aria-label="View all {{ collection.title | escape }}">View all</a>
+              </div>
+            {%- endif -%}
+
+          {%- else -%}
+            {%- comment -%} Kumpulkan semua block demo_product milik tab ini {%- endcomment -%}
+            {%- assign has_demo = false -%}
+            {%- for dblock in section.blocks -%}
+              {%- if dblock.type == 'demo_product' and dblock.settings.tab_index == tab_index -%}
+                {%- assign has_demo = true -%}
+              {%- endif -%}
+            {%- endfor -%}
+
+            {%- if has_demo -%}
+              <div class="collection-tabs__grid">
+                {%- for dblock in section.blocks -%}
+                  {%- if dblock.type == 'demo_product' and dblock.settings.tab_index == tab_index -%}
+                    {%- assign d_url = dblock.settings.product_url | default: '#' -%}
+                    <a href="{{ d_url }}" class="collection-tabs__card" {{ dblock.shopify_attributes }}>
+                      <div class="collection-tabs__card-image-wrap">
+                        {%- if dblock.settings.badge_text != blank -%}
+                          <span class="collection-tabs__card-badge">{{ dblock.settings.badge_text }}</span>
+                        {%- endif -%}
+                        {%- if dblock.settings.product_image != blank -%}
+                          <img
+                            src="{{ dblock.settings.product_image | image_url: width: 600 }}"
+                            alt="{{ dblock.settings.product_title | escape }}"
+                            width="600" height="600" loading="lazy"
+                          >
+                        {%- else -%}
+                          <div class="collection-tabs__card-placeholder">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true">
+                              <circle cx="50" cy="35" r="18" fill="#f5c97a" opacity="0.6"/>
+                              <ellipse cx="50" cy="72" rx="28" ry="18" fill="#f5c97a" opacity="0.5"/>
+                              <circle cx="42" cy="32" r="2.5" fill="#a0702a"/>
+                              <circle cx="58" cy="32" r="2.5" fill="#a0702a"/>
+                              <path d="M44 40 Q50 46 56 40" stroke="#a0702a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                              <path d="M34 55 Q50 65 66 55 Q70 68 50 78 Q30 68 34 55Z" fill="#e8b96a" opacity="0.7"/>
+                            </svg>
+                          </div>
+                        {%- endif -%}
+                      </div>
+                      <div class="collection-tabs__card-info">
+                        <p class="collection-tabs__card-title">{{ dblock.settings.product_title }}</p>
+                        <p class="collection-tabs__card-price">
+                          {{ dblock.settings.product_price }}
+                          {%- if dblock.settings.compare_price != blank -%}
+                            <span class="collection-tabs__card-price--compare">{{ dblock.settings.compare_price }}</span>
+                          {%- endif -%}
+                        </p>
+                      </div>
+                    </a>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+              {%- if section.settings.show_view_all -%}
+                <div class="collection-tabs__view-all">
+                  <a href="{{ block.settings.view_all_url | default: '#' }}">View all</a>
+                </div>
+              {%- endif -%}
+            {%- else -%}
+              <div class="collection-tabs__empty">
+                <p>Tambahkan produk demo via Theme Editor → "Produk Demo".</p>
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endif -%}
+        {%- comment -%} Skip rendering for demo_product blocks (handled inside collection_tab loop) {%- endcomment -%}
+        </div>
+      {%- endfor -%}
+
+    {%- endif -%}
+
+  </div>
+</div>
+
+<script>
+(function() {
+  function initCollectionTabs(sectionEl) {
+    var tabBtns = sectionEl.querySelectorAll('.collection-tabs__tab-btn');
+    var panels  = sectionEl.querySelectorAll('.collection-tabs__panel');
+    tabBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        tabBtns.forEach(function(b) { b.classList.remove('is-active'); b.setAttribute('aria-selected','false'); });
+        panels.forEach(function(p) { p.classList.remove('is-active'); });
+        btn.classList.add('is-active');
+        btn.setAttribute('aria-selected','true');
+        var targetPanel = sectionEl.querySelector('#' + btn.getAttribute('data-tab-target'));
+        if (targetPanel) targetPanel.classList.add('is-active');
+      });
+    });
+  }
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.collection-tabs-section').forEach(function(el) { initCollectionTabs(el); });
+  });
+  if (window.Shopify && window.Shopify.designMode) {
+    document.addEventListener('shopify:section:load', function(e) {
+      var s = e.target.querySelector('.collection-tabs-section');
+      if (s) initCollectionTabs(s);
+    });
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Collection Tabs",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 50,
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    { "type": "inline_richtext", "id": "title", "label": "Judul Section", "default": "Collections" },
+    { "type": "color", "id": "bg_color", "label": "Warna Latar Belakang", "default": "#FFFDF7" },
+    { "type": "checkbox", "id": "show_view_all", "label": "Tampilkan Tombol View All", "default": true },
+    { "type": "header", "content": "Padding Section" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding Atas", "default": 52 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding Bawah", "default": 52 }
+  ],
+  "blocks": [
+    {
+      "type": "collection_tab",
+      "name": "🗂 Tab Koleksi",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tab_label",
+          "label": "Label Tab",
+          "info": "Kosongkan untuk menggunakan nama koleksi otomatis"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Hubungkan ke Koleksi Shopify",
+          "info": "Jika dikosongkan, produk demo di bawah akan ditampilkan"
+        },
+        {
+          "type": "range",
+          "id": "products_to_show",
+          "min": 4,
+          "max": 24,
+          "step": 4,
+          "label": "Jumlah Produk Ditampilkan",
+          "default": 8
+        },
+        {
+          "type": "url",
+          "id": "view_all_url",
+          "label": "URL Tombol View All",
+          "info": "Dipakai saat koleksi tidak dihubungkan (mode demo)"
+        }
+      ]
+    },
+    {
+      "type": "demo_product",
+      "name": "🧸 Produk Demo",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Produk ini tampil ketika tab tidak dihubungkan ke koleksi Shopify."
+        },
+        {
+          "type": "select",
+          "id": "tab_index",
+          "label": "Tampilkan di Tab ke-",
+          "options": [
+            { "value": "1", "label": "Tab 1" },
+            { "value": "2", "label": "Tab 2" },
+            { "value": "3", "label": "Tab 3" },
+            { "value": "4", "label": "Tab 4" },
+            { "value": "5", "label": "Tab 5" },
+            { "value": "6", "label": "Tab 6" },
+            { "value": "7", "label": "Tab 7" },
+            { "value": "8", "label": "Tab 8" },
+            { "value": "9", "label": "Tab 9" },
+            { "value": "10", "label": "Tab 10" }
+          ],
+          "default": "1"
+        },
+        {
+          "type": "header",
+          "content": "Info Produk"
+        },
+        {
+          "type": "text",
+          "id": "product_title",
+          "label": "Nama Produk",
+          "default": "BBS Bedtime Buddy - Small"
+        },
+        {
+          "type": "text",
+          "id": "product_price",
+          "label": "Harga (contoh: Rp 469.000)",
+          "default": "Rp 469.000"
+        },
+        {
+          "type": "text",
+          "id": "compare_price",
+          "label": "Harga Coret / Sebelum Diskon (opsional)",
+          "info": "Kosongkan jika tidak ada diskon"
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Badge (contoh: Sold out, Sale, New)",
+          "info": "Kosongkan jika tidak perlu badge"
+        },
+        {
+          "type": "url",
+          "id": "product_url",
+          "label": "Link Produk"
+        },
+        {
+          "type": "header",
+          "content": "Gambar Produk"
+        },
+        {
+          "type": "image_picker",
+          "id": "product_image",
+          "label": "Foto Produk",
+          "info": "Jika kosong, ikon placeholder domba akan tampil"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Tabs",
+      "blocks": [
+        { "type": "collection_tab", "settings": { "tab_label": "Japanese MI4W" } },
+        { "type": "demo_product", "settings": { "tab_index": "1", "product_title": "BBS Bedtime Buddy Japanese MI4W - Small (13x30cm)", "product_price": "Rp 469.000", "compare_price": "Rp 520.000" } },
+        { "type": "demo_product", "settings": { "tab_index": "1", "product_title": "BBS Bedtime Buddy Japanese MI4W - Medium (18x38cm)", "product_price": "Rp 609.000" } },
+        { "type": "demo_product", "settings": { "tab_index": "1", "product_title": "BBS Bedtime Buddy Japanese MI4W - Jumbo (23x53cm)", "product_price": "Rp 749.000" } },
+        { "type": "demo_product", "settings": { "tab_index": "1", "product_title": "BBS Bedtime Buddy Japanese MI4W - XL (31x86cm)", "product_price": "Rp 1.309.000", "badge_text": "Sold out" } },
+        { "type": "collection_tab", "settings": { "tab_label": "Dream Garden" } },
+        { "type": "demo_product", "settings": { "tab_index": "2", "product_title": "BBS Bedtime Buddy Dream Garden - Small (13x30cm)", "product_price": "Rp 469.000", "compare_price": "Rp 520.000" } },
+        { "type": "demo_product", "settings": { "tab_index": "2", "product_title": "BBS Bedtime Buddy Dream Garden - Medium (18x38cm)", "product_price": "Rp 609.000" } },
+        { "type": "demo_product", "settings": { "tab_index": "2", "product_title": "BBS Bedtime Buddy Dream Garden - Jumbo (23x53cm)", "product_price": "Rp 749.000" } },
+        { "type": "demo_product", "settings": { "tab_index": "2", "product_title": "BBS Bedtime Buddy Dream Garden - XL (31x86cm)", "product_price": "Rp 1.309.000" } },
+        { "type": "collection_tab", "settings": { "tab_label": "Universe 2" } },
+        { "type": "demo_product", "settings": { "tab_index": "3", "product_title": "BBS Bedtime Buddy Universe 2 - Small (13x30cm)", "product_price": "Rp 469.000", "compare_price": "Rp 520.000" } },
+        { "type": "demo_product", "settings": { "tab_index": "3", "product_title": "BBS Bedtime Buddy Universe 2 - Medium (18x38cm)", "product_price": "Rp 609.000" } },
+        { "type": "demo_product", "settings": { "tab_index": "3", "product_title": "BBS Bedtime Buddy Universe 2 - Jumbo (23x53cm)", "product_price": "Rp 749.000" } },
+        { "type": "demo_product", "settings": { "tab_index": "3", "product_title": "BBS Bedtime Buddy Universe 2 - XL (31x86cm)", "product_price": "Rp 1.309.000", "badge_text": "New" } },
+        { "type": "collection_tab", "settings": { "tab_label": "Snoopy" } },
+        { "type": "demo_product", "settings": { "tab_index": "4", "product_title": "BBS Bedtime Buddy Snoopy - Small (13x30cm)", "product_price": "Rp 469.000" } },
+        { "type": "demo_product", "settings": { "tab_index": "4", "product_title": "BBS Bedtime Buddy Snoopy - Medium (18x38cm)", "product_price": "Rp 609.000" } },
+        { "type": "demo_product", "settings": { "tab_index": "4", "product_title": "BBS Bedtime Buddy Snoopy - Jumbo (23x53cm)", "product_price": "Rp 749.000" } },
+        { "type": "demo_product", "settings": { "tab_index": "4", "product_title": "BBS Bedtime Buddy Snoopy - XL (31x86cm)", "product_price": "Rp 1.309.000", "badge_text": "Sale" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

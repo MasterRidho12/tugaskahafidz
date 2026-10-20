@@ -1,0 +1,299 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "slideshow": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_1": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/imgi_76_BaabaaSheepz_Market_Banner.jpg",
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-1"
+          }
+        },
+        "slide_2": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/imgi_3_Banner_BBS_Harvard_jpg.jpg",
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-1"
+          }
+        },
+        "slide_3": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/imgi_74_Banner_BBS_Japanese_II_jpg.jpg",
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-1"
+          }
+        }
+      },
+      "block_order": [
+        "slide_1",
+        "slide_2",
+        "slide_3"
+      ],
+      "settings": {
+        "layout": "full_bleed",
+        "slide_height": "medium",
+        "slider_visual": "counter",
+        "auto_rotate": true,
+        "change_slides_speed": 5,
+        "image_behavior": "none",
+        "show_text_below": false,
+        "accessibility_info": ""
+      }
+    },
+    "featured_collection_jjwyWb": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "collection": "rido-ganteng",
+        "products_to_show": 4,
+        "title": "Online Exclusive",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 3,
+        "enable_desktop_slider": true,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "multicolumn_Wa98hU": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_EdRyjF": {
+          "type": "column",
+          "settings": {
+            "title": "OEKO-TEX &reg; STANDARD 100",
+            "text": "<p>CONFIDENCE IN TEXTILES</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_BCaRUP": {
+          "type": "column",
+          "settings": {
+            "title": "Anti-Bacterial &amp; Hypoallergenic",
+            "text": "",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_9atmJq": {
+          "type": "column",
+          "settings": {
+            "title": "Ultra-softness &amp; Lightweight",
+            "text": "",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_3eUgVi": {
+          "type": "column",
+          "settings": {
+            "title": "Washable &amp; Durable",
+            "text": "",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_d4pHNq": {
+          "type": "column",
+          "settings": {
+            "title": "Round-shaped fillers for excellent stretch &amp; flexibility",
+            "text": "",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_EdRyjF",
+        "column_BCaRUP",
+        "column_9atmJq",
+        "column_3eUgVi",
+        "column_d4pHNq"
+      ],
+      "name": "t:sections.multicolumn.presets.name",
+      "settings": {
+        "title": "Happy Sleep • Happy Day",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "adapt",
+        "button_label": "",
+        "button_link": "",
+        "columns_desktop": 5,
+        "column_alignment": "center",
+        "background_style": "none",
+        "color_scheme": "",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "video_grid": {
+      "type": "video-grid",
+      "blocks": {
+        "video_1": {
+          "type": "video_block",
+          "settings": {
+            "heading": "Feel the Softness",
+            "video_url": "",
+            "autoplay": true,
+            "loop": true,
+            "mute": true,
+            "controls": false
+          }
+        },
+        "video_2": {
+          "type": "video_block",
+          "settings": {
+            "heading": "Comfortable Sleep",
+            "video_url": "",
+            "autoplay": true,
+            "loop": true,
+            "mute": true,
+            "controls": false
+          }
+        },
+        "video_3": {
+          "type": "video_block",
+          "settings": {
+            "heading": "Plush Comfort",
+            "video_url": "",
+            "autoplay": true,
+            "loop": true,
+            "mute": true,
+            "controls": false
+          }
+        }
+      },
+      "block_order": [
+        "video_1",
+        "video_2",
+        "video_3"
+      ],
+      "settings": {
+        "bg_color": "#faf6f0",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "collection_tabs": {
+      "type": "collection-tabs",
+      "blocks": {
+        "tab_1": {
+          "type": "collection_tab",
+          "settings": {
+            "tab_label": "Japanese MI4W",
+            "collection": "rido-ganteng",
+            "products_to_show": 4,
+            "view_all_url": ""
+          }
+        },
+        "tab_2": {
+          "type": "collection_tab",
+          "settings": {
+            "tab_label": "Dream Garden",
+            "collection": "",
+            "products_to_show": 8,
+            "view_all_url": ""
+          }
+        },
+        "tab_3": {
+          "type": "collection_tab",
+          "settings": {
+            "tab_label": "Universe 2",
+            "collection": "",
+            "products_to_show": 8,
+            "view_all_url": ""
+          }
+        },
+        "tab_4": {
+          "type": "collection_tab",
+          "settings": {
+            "tab_label": "Snoopy",
+            "collection": "",
+            "products_to_show": 8,
+            "view_all_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "tab_1",
+        "tab_2",
+        "tab_3",
+        "tab_4"
+      ],
+      "settings": {
+        "title": "Collections",
+        "bg_color": "#fffdf7",
+        "show_view_all": true,
+        "padding_top": 52,
+        "padding_bottom": 52
+      }
+    }
+  },
+  "order": [
+    "slideshow",
+    "featured_collection_jjwyWb",
+    "multicolumn_Wa98hU",
+    "video_grid",
+    "collection_tabs"
+  ]
+}

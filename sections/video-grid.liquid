@@ -1,0 +1,377 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .video-grid-section {
+    background-color: {{ section.settings.bg_color }};
+  }
+
+  .video-grid-container {
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  @media screen and (max-width: 749px) {
+    .video-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+  }
+
+  .video-grid__item {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #000;
+  }
+
+  .video-grid__item video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .video-grid__item iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .video-grid__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2rem;
+    color: #ffffff;
+    box-sizing: border-box;
+    pointer-events: none; /* Klik tembus ke video */
+  }
+
+  .video-grid__header {
+    pointer-events: auto;
+    text-align: center;
+    width: 100%;
+    margin-top: 15%;
+  }
+
+  .video-grid__text-title {
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .video-grid__footer {
+    pointer-events: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .video-grid__play-toggle {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.6rem;
+    height: 3.6rem;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+    transition: transform 0.2s;
+  }
+
+  .video-grid__play-toggle:hover {
+    transform: scale(1.1);
+  }
+
+  .video-grid__play-toggle svg {
+    width: 2.4rem;
+    height: 2.4rem;
+    fill: currentColor;
+  }
+
+  .video-grid__duration {
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+  }
+{%- endstyle -%}
+
+<div class="video-grid-section section-{{ section.id }}-padding">
+  <div class="video-grid-container">
+    <div class="video-grid">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign autoplay = block.settings.autoplay
+          assign loop = block.settings.loop
+          assign mute = block.settings.mute
+          assign controls = block.settings.controls
+        -%}
+        <div class="video-grid__item" id="video-block-{{ block.id }}" {{ block.shopify_attributes }}>
+          
+          {%- if block.settings.video_shopify != blank -%}
+            {{ block.settings.video_shopify | video_tag: 
+              autoplay: autoplay,
+              loop: loop,
+              muted: mute,
+              controls: controls,
+              class: 'html5-video'
+            }}
+          {%- elsif block.settings.video_url != blank -%}
+            {%- if block.settings.video_url.type == 'youtube' -%}
+              <iframe 
+                class="external-video-iframe"
+                src="https://www.youtube.com/embed/{{ block.settings.video_url.id }}?enablejsapi=1&autoplay={% if autoplay %}1{% else %}0{% endif %}&loop={% if loop %}1{% else %}0{% endif %}&mute={% if mute %}1{% else %}0{% endif %}&controls={% if controls %}1{% else %}0{% endif %}&playlist={{ block.settings.video_url.id }}&modestbranding=1" 
+                allow="autoplay; encrypted-media" 
+                allowfullscreen
+              ></iframe>
+            {%- elsif block.settings.video_url.type == 'vimeo' -%}
+              <iframe 
+                class="external-video-iframe"
+                src="https://player.vimeo.com/video/{{ block.settings.video_url.id }}?autoplay={% if autoplay %}1{% else %}0{% endif %}&loop={% if loop %}1{% else %}0{% endif %}&muted={% if mute %}1{% else %}0{% endif %}&controls={% if controls %}1{% else %}0{% endif %}" 
+                allow="autoplay; fullscreen" 
+                allowfullscreen
+              ></iframe>
+            {%- endif -%}
+          {%- else -%}
+            {%- comment -%} Dummy Fallback Video Placeholder {%- endcomment -%}
+            <div style="width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#ccc; color:#666;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48" fill="currentColor">
+                <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/>
+              </svg>
+              <p style="margin-top:10px; font-size:12px;">Pilih Video di Editor</p>
+            </div>
+          {%- endif -%}
+
+          {%- comment -%} Overlay dengan Judul & Kontrol Play/Pause Durasi Kustom {%- endcomment -%}
+          <div class="video-grid__overlay">
+            <div class="video-grid__header">
+              {%- if block.settings.heading != blank -%}
+                <h3 class="video-grid__text-title">{{ block.settings.heading }}</h3>
+              {%- endif -%}
+            </div>
+            
+            <div class="video-grid__footer">
+              <button class="video-grid__play-toggle" aria-label="Toggle Play/Pause" data-autoplay="{{ autoplay }}">
+                {%- if autoplay -%}
+                  {%- comment -%} Pause Icon {%- endcomment -%}
+                  <svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                {%- else -%}
+                  {%- comment -%} Play Icon {%- endcomment -%}
+                  <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                {%- endif -%}
+              </button>
+              <span class="video-grid__duration">0:00</span>
+            </div>
+          </div>
+
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.video-grid__item').forEach(function(item) {
+    var video = item.querySelector('video.html5-video');
+    var playBtn = item.querySelector('.video-grid__play-toggle');
+    var durationText = item.querySelector('.video-grid__duration');
+
+    if (!video) return;
+
+    // Update play button icons
+    function updatePlayButton(isPlaying) {
+      if (isPlaying) {
+        playBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+      } else {
+        playBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+      }
+    }
+
+    // Toggle Play/Pause HTML5 video
+    playBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      if (video.paused) {
+        video.play();
+        updatePlayButton(true);
+      } else {
+        video.pause();
+        updatePlayButton(false);
+      }
+    });
+
+    // Track duration and current time
+    video.addEventListener('loadedmetadata', function() {
+      var totalMin = Math.floor(video.duration / 60);
+      var totalSec = Math.floor(video.duration % 60);
+      if (totalSec < 10) totalSec = '0' + totalSec;
+      durationText.textContent = '0:00/' + totalMin + ':' + totalSec;
+    });
+
+    video.addEventListener('timeupdate', function() {
+      var minutes = Math.floor(video.currentTime / 60);
+      var seconds = Math.floor(video.currentTime % 60);
+      if (seconds < 10) seconds = '0' + seconds;
+      var totalMin = Math.floor(video.duration / 60);
+      var totalSec = Math.floor(video.duration % 60);
+      if (totalSec < 10) totalSec = '0' + totalSec;
+      durationText.textContent = minutes + ':' + seconds + '/' + totalMin + ':' + totalSec;
+    });
+
+    // Check playing state at load
+    video.addEventListener('play', function() { updatePlayButton(true); });
+    video.addEventListener('pause', function() { updatePlayButton(false); });
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Video Grid Vertikal",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Warna Latar Belakang Section",
+      "default": "#FAF6F0"
+    },
+    {
+      "type": "header",
+      "content": "Jarak Padding Section"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Atas",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bawah",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video_block",
+      "name": "Video",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "Judul Overlay Video",
+          "default": "Feel the Softness"
+        },
+        {
+          "type": "video",
+          "id": "video_shopify",
+          "label": "Unggah Video (Shopify Video)"
+        },
+        {
+          "type": "video_url",
+          "id": "video_url",
+          "label": "Atau URL Video Eksternal (YouTube/Vimeo)",
+          "accept": ["youtube", "vimeo"]
+        },
+        {
+          "type": "checkbox",
+          "id": "autoplay",
+          "label": "Putar Otomatis (Autoplay)",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "loop",
+          "label": "Ulangi Terus (Loop)",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "mute",
+          "label": "Matikan Suara (Mute)",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "controls",
+          "label": "Tampilkan Kontrol Asli Video",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video Grid Vertikal (3 Kolom)",
+      "blocks": [
+        {
+          "type": "video_block",
+          "settings": {
+            "heading": "Feel the Softness"
+          }
+        },
+        {
+          "type": "video_block",
+          "settings": {
+            "heading": "Comfortable Sleep"
+          }
+        },
+        {
+          "type": "video_block",
+          "settings": {
+            "heading": "Plush Comfort"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

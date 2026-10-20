@@ -1,0 +1,15 @@
+{
+  "name": "baba-down",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "shopify theme dev --store ridho-playground.myshopify.com --theme 144753360980 --port 3000",
+    "pull": "shopify theme pull --store ridho-playground.myshopify.com --theme 144753360980",
+    "push": "shopify theme push --store ridho-playground.myshopify.com --theme 144753360980"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
