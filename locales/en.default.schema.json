@@ -2329,6 +2329,27 @@
               "default": "Heading"
             }
           }
+        },
+        "size_chart": {
+          "name": "Size chart",
+          "settings": {
+            "button_label": {
+              "label": "Button label",
+              "default": "Size Guide"
+            },
+            "default_unit": {
+              "label": "Default unit",
+              "options__1": {
+                "label": "cm"
+              },
+              "options__2": {
+                "label": "inch"
+              }
+            },
+            "show_guide_image": {
+              "label": "Show measurement guide image"
+            }
+          }
         }
       },
       "settings": {

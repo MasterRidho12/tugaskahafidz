@@ -188,7 +188,29 @@
       },
       "taxes_included": "Termasuk pajak.",
       "duties_included": "Termasuk bea cukai.",
-      "duties_and_taxes_included": "Termasuk bea cukai dan pajak."
+      "duties_and_taxes_included": "Termasuk bea cukai dan pajak.",
+      "size_chart": {
+        "button_label": "Panduan Ukuran",
+        "modal_title": "Panduan Ukuran",
+        "close": "Tutup panduan ukuran",
+        "unit_cm": "cm",
+        "unit_inch": "inci",
+        "size": "Ukuran",
+        "chest": "Lingkar Dada",
+        "waist": "Lingkar Pinggang",
+        "hip": "Lingkar Pinggul",
+        "length": "Panjang Badan",
+        "shoulder": "Lebar Bahu",
+        "sleeve": "Panjang Lengan",
+        "empty_cell": "-",
+        "guide_image_alt": "Panduan cara mengukur badan",
+        "recommender_title": "Cari Ukuran Anda",
+        "recommender_desc": "Masukkan ukuran lingkar dada untuk menemukan ukuran yang paling sesuai:",
+        "recommender_placeholder": "Lingkar dada (cm)",
+        "recommender_button": "Cek",
+        "recommender_result": "Rekomendasi Ukuran: ",
+        "recommender_hint": "Masukkan angka yang valid"
+      }
     },
     "modal": {
       "label": "Galeri media"

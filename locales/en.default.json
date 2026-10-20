@@ -188,7 +188,29 @@
       "taxes_included": "Taxes included.",
       "duties_included": "Duties included.",
       "duties_and_taxes_included": "Duties and taxes included.",
-      "shipping_policy_html": "<a href=\"{{ link }}\">Shipping</a> calculated at checkout."
+      "shipping_policy_html": "<a href=\"{{ link }}\">Shipping</a> calculated at checkout.",
+      "size_chart": {
+        "button_label": "Size Guide",
+        "modal_title": "Size Guide",
+        "close": "Close size guide",
+        "unit_cm": "cm",
+        "unit_inch": "inch",
+        "size": "Size",
+        "chest": "Chest (Bust)",
+        "waist": "Waist",
+        "hip": "Hips",
+        "length": "Length",
+        "shoulder": "Shoulder",
+        "sleeve": "Sleeve",
+        "empty_cell": "-",
+        "guide_image_alt": "Size measurement guide",
+        "recommender_title": "Find Your Size",
+        "recommender_desc": "Enter your chest / bust measurement to find your size:",
+        "recommender_placeholder": "Bust/chest (cm)",
+        "recommender_button": "Check",
+        "recommender_result": "Recommended Size: ",
+        "recommender_hint": "Please enter a valid number"
+      }
     },
     "modal": {
       "label": "Media gallery"
