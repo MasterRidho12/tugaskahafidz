@@ -10,11 +10,12 @@
   - Bonus: Size recommendation finder
 {%- endcomment -%}
 
-{%- assign chart = product.metafields.custom.size_chart.value -%}
+{%- assign chart = product.metafields.custom.size_chart.value | default: product.metafields.custom.size_chart -%}
 {%- if chart == blank -%}
   {%- for collection in product.collections -%}
-    {%- if collection.metafields.custom.default_size_chart.value != blank -%}
-      {%- assign chart = collection.metafields.custom.default_size_chart.value -%}
+    {%- assign coll_chart = collection.metafields.custom.default_size_chart.value | default: collection.metafields.custom.default_size_chart -%}
+    {%- if coll_chart != blank -%}
+      {%- assign chart = coll_chart -%}
       {%- break -%}
     {%- endif -%}
   {%- endfor -%}
