@@ -491,6 +491,8 @@
                     block: block,
                     product_form_id: product_form_id
                   %}
+                {%- when 'size_chart' -%}
+                  {% render 'size-chart', block: block, product: product %}
                 {%- when 'buy_buttons' -%}
                   {%- render 'buy-buttons',
                     block: block,
@@ -2142,6 +2144,41 @@
           "default": "t:sections.main-product.blocks.icon_with_text.settings.heading_3.default",
           "label": "t:sections.main-product.blocks.icon_with_text.settings.heading_3.label",
           "info": "t:sections.main-product.blocks.icon_with_text.settings.heading.info"
+        }
+      ]
+    },
+    {
+      "type": "size_chart",
+      "name": "t:sections.main-product.blocks.size_chart.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_label",
+          "default": "t:sections.main-product.blocks.size_chart.settings.button_label.default",
+          "label": "t:sections.main-product.blocks.size_chart.settings.button_label.label"
+        },
+        {
+          "type": "select",
+          "id": "default_unit",
+          "options": [
+            {
+              "value": "cm",
+              "label": "t:sections.main-product.blocks.size_chart.settings.default_unit.options__1.label"
+            },
+            {
+              "value": "inch",
+              "label": "t:sections.main-product.blocks.size_chart.settings.default_unit.options__2.label"
+            }
+          ],
+          "default": "cm",
+          "label": "t:sections.main-product.blocks.size_chart.settings.default_unit.label"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_guide_image",
+          "default": true,
+          "label": "t:sections.main-product.blocks.size_chart.settings.show_guide_image.label"
         }
       ]
     }
