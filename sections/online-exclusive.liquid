@@ -311,7 +311,7 @@
 
     assign total_items = 4
     if use_collection
-      assign all_products = collection.products | limit: products_to_show
+      assign all_products = collection.products | slice: 0, products_to_show
       assign total_items = all_products | size
     elsif use_blocks
       assign total_items = section.blocks.size
