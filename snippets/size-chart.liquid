@@ -201,7 +201,7 @@
               </thead>
               <tbody>
                 {%- for row in chart_rows -%}
-                  {%- assign r_size = row.size.value | default: row.size -%}
+                  {%- assign r_size = row.size.value | default: row.name.value | default: row.size | default: row.name | default: row.system.handle | upcase -%}
                   {%- assign r_chest = row.chest_cm.value | default: row.chest_cm -%}
                   {%- assign r_waist = row.waist_cm.value | default: row.waist_cm -%}
                   {%- assign r_hip = row.hip_cm.value | default: row.hip_cm -%}
@@ -255,10 +255,9 @@
             </p>
           {%- endif -%}
 
-          {%- assign chart_notes = chart.notes.value | default: chart.notes -%}
-          {%- if chart_notes != blank -%}
+          {%- if chart.notes != blank -%}
             <div class="size-chart-modal__notes rte">
-              {{ chart_notes }}
+              {{ chart.notes | metafield_tag }}
             </div>
           {%- endif -%}
 
